@@ -60,14 +60,14 @@ ruby tasks/queue/main.rb
 
 ## Automated tests
 
-The Minitest suite under `tasks/tests` is a work in progress. Run all current
-tests from the repository root with:
+The Minitest suite under `tests` covers the bank domain and persistence. Run
+all tests from the repository root with:
 
 ```bash
-ruby -Itasks/tests -e 'Dir["tasks/tests/**/*_test.rb"].sort.each { |file| require_relative file }'
+ruby -Itests -e 'Dir["tests/**/*_test.rb"].sort.each { |file| require_relative file }'
 ```
 
-The planned bank test suite covers:
+The bank test suite covers:
 
 - transaction validation, immutability, and serialization
 - deposits, withdrawals, balances, and statements

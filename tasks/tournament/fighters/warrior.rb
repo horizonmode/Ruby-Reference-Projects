@@ -13,6 +13,7 @@ class Warrior < Fighter
   end
 
   def reset_for_battle
+    super
     @fireballs = 3
   end
 

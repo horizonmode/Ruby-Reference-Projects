@@ -1,8 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    drb (2.2.3)
     language_server-protocol (3.17.0.6)
     logger (1.7.0)
+    minitest (6.0.6)
+      drb (~> 2.0)
+      prism (~> 1.5)
+    minitest-mock (5.27.0)
     prettier_print (1.2.1)
     prism (1.9.0)
     rbs (4.2.0)
@@ -22,6 +27,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  minitest
+  minitest-mock
   ruby-lsp
   syntax_tree
 
