@@ -1,0 +1,139 @@
+[
+  {
+    "id": "ae999e99-206b-413f-8d3e-639d69283aaa",
+    "owner_name": "Default User",
+    "transactions": [
+      {
+        "type": "deposit",
+        "amount": 100,
+        "timestamp": "2026-08-26T20:39:39+01:00",
+        "id": "0b475a4a-bfb5-481f-b636-03dec804f64a",
+        "transfer_id": null
+      },
+      {
+        "type": "withdrawal",
+        "amount": 50,
+        "timestamp": "2026-08-26T20:39:39+01:00",
+        "id": "7e967da1-81fa-4683-9f1c-fb938c6e8c61",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_out",
+        "amount": 25,
+        "timestamp": "2026-08-26T20:39:39+01:00",
+        "id": "a383d523-a131-4641-aa1b-fe533eb7c117",
+        "transfer_id": null
+      },
+      {
+        "type": "deposit",
+        "amount": 100,
+        "timestamp": "2026-08-26T20:40:27+01:00",
+        "id": "fc9119dd-d05f-4286-8ad3-dde0aa6aebbb",
+        "transfer_id": null
+      },
+      {
+        "type": "withdrawal",
+        "amount": 50,
+        "timestamp": "2026-08-26T20:40:27+01:00",
+        "id": "52b5c17c-daee-4b95-8f39-6a04a838c96a",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_out",
+        "amount": 25,
+        "timestamp": "2026-08-26T20:40:27+01:00",
+        "id": "d8ff8730-ae42-4247-82a2-0e9b6389f6b3",
+        "transfer_id": null
+      },
+      {
+        "type": "deposit",
+        "amount": 100,
+        "timestamp": "2026-08-26T20:42:03+01:00",
+        "id": "7793ed35-33e9-489b-839f-56276d1c7d4e",
+        "transfer_id": null
+      },
+      {
+        "type": "withdrawal",
+        "amount": 50,
+        "timestamp": "2026-08-26T20:42:03+01:00",
+        "id": "2dfce338-7d60-4e8c-bf75-6815850e3d59",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_out",
+        "amount": 25,
+        "timestamp": "2026-08-26T20:42:03+01:00",
+        "id": "7a5a9750-9f76-42b2-8bde-7d54e528b086",
+        "transfer_id": null
+      },
+      {
+        "type": "deposit",
+        "amount": 100,
+        "timestamp": "2026-08-26T21:14:53+01:00",
+        "id": "7993e8ce-2f36-4049-82de-6b1e8a74ba52",
+        "transfer_id": null
+      },
+      {
+        "type": "withdrawal",
+        "amount": 50,
+        "timestamp": "2026-08-26T21:14:53+01:00",
+        "id": "619a94cc-bd70-449a-89ee-56f951ad9600",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_out",
+        "amount": 25,
+        "timestamp": "2026-08-26T21:14:53+01:00",
+        "id": "082f8b09-1e3e-4e46-90ca-e5387263970d",
+        "transfer_id": null
+      }
+    ]
+  },
+  {
+    "id": "3f5903cd-fe46-4d4d-8225-f986199af41c",
+    "owner_name": "Second User",
+    "transactions": [
+      {
+        "type": "transfer_in",
+        "amount": 25,
+        "timestamp": "2026-08-26T20:39:39+01:00",
+        "id": "61dcb733-e837-40cc-902c-797ae5704a27",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_in",
+        "amount": 25,
+        "timestamp": "2026-08-26T20:40:27+01:00",
+        "id": "92a36891-4453-42b9-b61d-d1b9355eb9a9",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_in",
+        "amount": 25,
+        "timestamp": "2026-08-26T20:42:03+01:00",
+        "id": "9c419b15-85e8-44c9-bf05-5d090753851e",
+        "transfer_id": null
+      },
+      {
+        "type": "transfer_in",
+        "amount": 25,
+        "timestamp": "2026-08-26T21:14:53+01:00",
+        "id": "a77e6c2c-413b-463e-ba3e-ea623e9e9fc9",
+        "transfer_id": null
+      }
+    ]
+  },
+  {
+    "id": "97a2fba4-c638-4c26-96d5-1572d0b2ef96",
+    "owner_name": "eeer",
+    "transactions": [
+      {
+        "type": "deposit",
+        "amount": 34.0,
+        "timestamp": "2026-08-26T21:31:44+01:00",
+        "id": "48238145-7be9-4726-83db-fd7877ee2202",
+        "transfer_id": null
+      }
+    ]
+  }
+]
