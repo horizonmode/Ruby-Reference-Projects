@@ -1,7 +1,16 @@
 require_relative "../stage_result"
+require_relative "../sensor_message"
 
 class UnitNormalizer
   def call(message)
+    unless message.is_a?(SensorMessage)
+      return(
+        StageResult.failure(
+          TypeError.new("UnitNormalizer requires a SensorMessage")
+        )
+      )
+    end
+
     normalized =
       case message.unit
       when :celsius

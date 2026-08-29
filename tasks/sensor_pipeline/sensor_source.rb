@@ -43,6 +43,7 @@ class SensorSource
   end
 
   def valid_interval?(interval)
-    interval.is_a?(Numeric) && interval >= 0
+    interval.is_a?(Numeric) && interval.real? && interval.finite? &&
+      interval >= 0
   end
 end

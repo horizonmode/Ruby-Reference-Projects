@@ -68,7 +68,7 @@ class SensorSourceTest < Minitest::Test
   end
 
   def test_rejects_an_invalid_interval
-    [-1, "one second", nil].each do |interval|
+    [-1, Float::INFINITY, Float::NAN, "one second", nil].each do |interval|
       error = assert_raises(ArgumentError) { build_source(interval: interval) }
 
       assert_equal "interval must be a non-negative number or callable",

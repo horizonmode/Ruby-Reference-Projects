@@ -6,6 +6,10 @@ class Validator
   UNIT_NAMES = { "C" => :celsius, "F" => :fahrenheit }.freeze
 
   def call(data)
+    unless data.is_a?(Hash)
+      return StageResult.failure(TypeError.new("Validator requires a Hash"))
+    end
+
     validate_required_fields(data)
     validate_type(data[:type])
     validate_value(data[:value])
@@ -36,7 +40,8 @@ class Validator
     missing =
       required.find do |key|
         value = data[key]
-        value.nil? || (value.respond_to?(:empty?) && value.empty?)
+        value.nil? || (value.respond_to?(:empty?) && value.empty?) ||
+          (value.is_a?(String) && value.strip.empty?)
       end
 
     raise ArgumentError, "#{missing} is required" if missing
