@@ -1,63 +1,56 @@
-require "date"
+require "securerandom"
+require_relative "lib/equipment_hire"
 
-require_relative "product"
-require_relative "booking"
-require_relative "hire_item"
-require_relative "hire_request"
-require_relative "catalog"
-require_relative "inventory"
-require_relative "quote_calculator"
-require_relative "booking_confirmer"
+include EquipmentHire
 
-require_relative "pricing/standard_pricing"
-require_relative "delivery/local_delivery"
+def format_money(pence)
+  format("£%.2f", pence.fdiv(100))
+end
 
-require_relative "services/payment_gateway"
-require_relative "services/notifier"
-require_relative "services/system_clock"
+clock = Services::SystemClock.new
+id_generator = -> { SecureRandom.uuid }
 
-# 1. Create the product catalogue
-
-products = [
-  Product.new(id: :drill, daily_rate: 1_500, replacement_value: 12_000),
-  Product.new(id: :ladder, daily_rate: 800, replacement_value: 8_000),
-  Product.new(id: :generator, daily_rate: 4_000, replacement_value: 50_000)
-]
-
-catalog = Catalog.new(products)
-
-# 2. Create the inventory
-
-inventory =
-  Inventory.new(
+catalog =
+  Catalog.new(
     [
-      Inventory::Item.new(:drill, 5),
-      Inventory::Item.new(:ladder, 3),
-      Inventory::Item.new(:generator, 1)
+      Product.new(id: :drill, daily_rate: 1_500, replacement_value: 12_000),
+      Product.new(id: :ladder, daily_rate: 800, replacement_value: 8_000),
+      Product.new(id: :generator, daily_rate: 4_000, replacement_value: 50_000)
     ]
   )
 
-# 3. Select interchangeable behaviour
+inventory =
+  Inventory.new(
+    items: [
+      StockItem.new(product_id: :drill, quantity: 5),
+      StockItem.new(product_id: :ladder, quantity: 3),
+      StockItem.new(product_id: :generator, quantity: 1)
+    ]
+  )
 
-pricing = StandardPricing.new
-delivery = LocalDelivery.new
+# These collaborators can be replaced without changing QuoteCalculator.
+pricing = Pricing::Standard.new
+delivery = Delivery::Local.new
 
-# Try swapping these later:
-#
-# pricing = WeekendPricing.new
-# pricing = MemberPricing.new
-#
-# delivery = CustomerCollection.new
-# delivery = DistanceDelivery.new(miles: 12)
+# Other examples:
+# pricing = Pricing::Weekend.new
+# pricing = Pricing::Member.new(base: Pricing::Weekend.new)
+# delivery = Delivery::Collection.new
+# delivery = Delivery::Distance.new(miles: 12)
+# delivery = Delivery::Corporate.new(base: delivery)
 
-# 4. Create the quote calculator
-
-calculator = QuoteCalculator.new(pricingModel: pricing, deliveryModel: delivery)
-
-# 5. Create a hire request
+calculator =
+  QuoteCalculator.new(
+    catalog: catalog,
+    inventory: inventory,
+    pricing: pricing,
+    delivery: delivery,
+    clock: clock
+  )
 
 request =
   HireRequest.new(
+    id: id_generator.call,
     customer_id: 42,
     starts_on: Date.new(2026, 9, 5),
     days: 3,
@@ -67,36 +60,31 @@ request =
     ]
   )
 
-# 6. Produce a quote
+quote = calculator.quote(request)
 
-quote = calculator.quote(request, catalog: catalog, inventory: inventory)
+puts "Equipment subtotal: #{format_money(quote.equipment_subtotal)}"
+puts "Delivery: #{format_money(quote.delivery_charge)}"
+puts "Total: #{format_money(quote.total)}"
 
-puts "Equipment subtotal: £#{quote.subtotal / 100.0}"
-puts "Delivery: £#{quote.delivery_charge / 100.0}"
-puts "Total: £#{quote.total / 100.0}"
-
-unless quote.can_be_confirmed?
-  puts "Unavailable products: #{quote.unavailable_products.join(", ")}"
+unless quote.confirmable?
+  puts "Unavailable products: #{quote.unavailable_product_ids.join(", ")}"
   exit
 end
-
-# 7. Inject external service objects
 
 confirmer =
   BookingConfirmer.new(
     inventory: inventory,
-    payment_gateway: PaymentGateway.new,
-    notifier: Notifier.new,
-    clock: SystemClock.new
+    payment_gateway: Services::PaymentGateway.new,
+    notifier: Services::Notifier.new,
+    clock: clock,
+    id_generator: id_generator
   )
-
-# 8. Confirm the quote
 
 begin
   booking = confirmer.confirm(quote)
 
   puts "Booking #{booking.id} confirmed"
-  puts "Amount charged: £#{quote.total / 100.0}"
+  puts "Amount charged: #{format_money(booking.amount_charged)}"
 rescue QuoteExpiredError => error
   warn "Could not confirm: #{error.message}"
 rescue PaymentRejectedError => error
